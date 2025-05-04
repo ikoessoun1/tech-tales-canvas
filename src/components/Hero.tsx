@@ -1,7 +1,7 @@
 
 import { personalInfo } from "@/utils/demoData";
 import { Button } from "@/components/ui/button";
-import { GitHub, Mail, Linkedin, Twitter } from "lucide-react";
+import { Github, Mail, Linkedin, Twitter } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const Hero = () => {
@@ -38,7 +38,7 @@ const Hero = () => {
               <SocialLink
                 href={personalInfo.socialLinks.github}
                 aria-label="GitHub"
-                icon={<GitHub className="size-5" />}
+                icon={<Github className="size-5" />}
               />
               <SocialLink
                 href={personalInfo.socialLinks.linkedin}
