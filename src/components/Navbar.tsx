@@ -3,8 +3,16 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/context/AuthContext";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { name: "Home", path: "#hero" },
@@ -17,6 +25,7 @@ const navItems = [
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { user, signOut, isAdmin } = useAuth();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -62,6 +71,36 @@ const Navbar = () => {
               </li>
             ))}
           </ul>
+          
+          {/* Authentication Links */}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <User className="h-4 w-4" /> 
+                  Account
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {isAdmin && (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin">Admin Panel</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
+                <DropdownMenuItem onClick={signOut} className="text-red-500">
+                  <LogOut className="h-4 w-4 mr-2" /> Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button asChild size="sm" variant="default">
+              <Link to="/auth">Sign In</Link>
+            </Button>
+          )}
+          
           <ThemeToggle />
         </nav>
 
@@ -95,6 +134,30 @@ const Navbar = () => {
                   </a>
                 </li>
               ))}
+              {user ? (
+                <li>
+                  <Button 
+                    onClick={() => {
+                      signOut();
+                      setIsMenuOpen(false);
+                    }} 
+                    variant="ghost" 
+                    className="w-full justify-start py-2 text-xl font-medium"
+                  >
+                    <LogOut className="h-5 w-5 mr-2" /> Sign Out
+                  </Button>
+                </li>
+              ) : (
+                <li>
+                  <Link 
+                    to="/auth" 
+                    className="block py-2 text-xl font-medium text-primary"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                </li>
+              )}
             </ul>
           </nav>
         </div>
