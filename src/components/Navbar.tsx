@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import ThemeToggle from "./ThemeToggle";
-import { Menu, X, LogOut, User } from "lucide-react";
+import { Menu, X, LogOut, User, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 import { 
@@ -70,6 +70,17 @@ const Navbar = () => {
                 </a>
               </li>
             ))}
+            {isAdmin && (
+              <li>
+                <Link 
+                  to="/admin" 
+                  className="font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1"
+                >
+                  <Shield className="h-4 w-4" />
+                  Admin
+                </Link>
+              </li>
+            )}
           </ul>
           
           {/* Authentication Links */}
@@ -85,7 +96,10 @@ const Navbar = () => {
                 {isAdmin && (
                   <>
                     <DropdownMenuItem asChild>
-                      <Link to="/admin">Admin Panel</Link>
+                      <Link to="/admin">
+                        <Shield className="h-4 w-4 mr-2" />
+                        Admin Panel
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                   </>
@@ -134,6 +148,17 @@ const Navbar = () => {
                   </a>
                 </li>
               ))}
+              {isAdmin && (
+                <li>
+                  <Link
+                    to="/admin"
+                    className="block py-2 text-xl font-medium text-primary flex items-center gap-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Shield className="h-5 w-5" /> Admin Panel
+                  </Link>
+                </li>
+              )}
               {user ? (
                 <li>
                   <Button 

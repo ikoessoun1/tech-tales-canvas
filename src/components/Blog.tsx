@@ -28,6 +28,7 @@ interface BlogComment {
   content: string;
   created_at: string;
   author?: string;
+  author_email?: string;
 }
 
 interface BlogReaction {
@@ -35,6 +36,13 @@ interface BlogReaction {
   post_id: string;
   user_id: string;
   reaction_type: string;
+}
+
+interface UserProfile {
+  id: string;
+  username?: string;
+  full_name?: string;
+  email?: string;
 }
 
 const Blog = () => {
@@ -45,6 +53,7 @@ const Blog = () => {
   const [reactions, setReactions] = useState<Record<string, BlogReaction[]>>({});
   const [loadingComments, setLoadingComments] = useState(false);
   const [submittingComment, setSubmittingComment] = useState(false);
+  const [userProfiles, setUserProfiles] = useState<Record<string, UserProfile>>({});
 
   const currentPost = selectedPost ? blogPosts.find(post => post.id === selectedPost) : null;
 
@@ -59,13 +68,92 @@ const Blog = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setComments(data || []);
+      
+      const commentsWithAuthors = data || [];
+      setComments(commentsWithAuthors);
+      
+      // Fetch user information for each comment
+      await fetchUserProfiles(commentsWithAuthors.map(comment => comment.user_id));
+      
     } catch (error: any) {
       console.error("Error fetching comments:", error);
       toast.error("Failed to load comments");
     } finally {
       setLoadingComments(false);
     }
+  };
+
+  // Fetch user profiles for comments
+  const fetchUserProfiles = async (userIds: string[]) => {
+    // Deduplicate user IDs
+    const uniqueUserIds = [...new Set(userIds)];
+    
+    // Only fetch profiles we don't already have
+    const userIdsToFetch = uniqueUserIds.filter(id => !userProfiles[id]);
+    
+    if (userIdsToFetch.length === 0) return;
+    
+    try {
+      // First try to get from profiles table
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, username, full_name')
+        .in('id', userIdsToFetch);
+        
+      if (profilesError) throw profilesError;
+      
+      // Then get user emails from auth.users
+      const usersWithEmails: Record<string, UserProfile> = {};
+      
+      for (const userId of userIdsToFetch) {
+        // We can't query auth.users directly, but we can get the current user's email
+        if (user && user.id === userId && user.email) {
+          usersWithEmails[userId] = { 
+            id: userId,
+            email: user.email 
+          };
+        }
+      }
+      
+      // Merge profile data with emails
+      const newUserProfiles = { ...userProfiles };
+      
+      // Add profiles data
+      if (profilesData) {
+        for (const profile of profilesData) {
+          newUserProfiles[profile.id] = {
+            id: profile.id,
+            username: profile.username,
+            full_name: profile.full_name,
+            ...(usersWithEmails[profile.id] || {})
+          };
+        }
+      }
+      
+      // Add any users that had emails but no profile
+      for (const userId in usersWithEmails) {
+        if (!newUserProfiles[userId]) {
+          newUserProfiles[userId] = usersWithEmails[userId];
+        }
+      }
+      
+      setUserProfiles(newUserProfiles);
+      
+    } catch (error) {
+      console.error("Error fetching user profiles:", error);
+    }
+  };
+
+  // Get display name for a user
+  const getUserDisplayName = (userId: string): string => {
+    const profile = userProfiles[userId];
+    if (!profile) return "User";
+    
+    if (profile.username) return profile.username;
+    if (profile.full_name) return profile.full_name;
+    if (profile.email) return profile.email.split('@')[0];
+    
+    return "User";
   };
 
   // Fetch reactions for a post
@@ -369,9 +457,9 @@ const Blog = () => {
                             <div className="flex justify-between items-center mb-2">
                               <div className="flex items-center gap-2">
                                 <Avatar className="h-8 w-8">
-                                  <AvatarFallback>{comment.author?.charAt(0) || 'U'}</AvatarFallback>
+                                  <AvatarFallback>{getUserDisplayName(comment.user_id).charAt(0).toUpperCase()}</AvatarFallback>
                                 </Avatar>
-                                <div className="font-medium">{comment.author || "User"}</div>
+                                <div className="font-medium">{getUserDisplayName(comment.user_id)}</div>
                               </div>
                               <div className="text-sm text-muted-foreground">
                                 {new Date(comment.created_at).toLocaleDateString()}
