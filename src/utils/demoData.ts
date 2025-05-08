@@ -317,34 +317,34 @@ module.exports = router;</code></pre>
 ];
 
 export const personalInfo = {
-  name: "Alex Johnson",
+  name: "Isaac Kojo Okordie Essoun",
   title: "Full Stack Developer",
-  bio: "I'm a passionate full stack developer with over 5 years of experience creating web applications that combine elegant front-end designs with robust back-end architecture. I specialize in JavaScript technologies, particularly React, Node.js, and MongoDB, and I love solving complex problems with clean, efficient code.",
+  bio: "I'm a dedicated full stack developer with around 3 years of experience building responsive and efficient web applications. With a strong passion for technology and storytelling through film, I blend logic and creativity in every project I undertake.",
   about: {
-    personal: "Born and raised in Seattle, I've always been fascinated by technology and how it can transform our lives. Outside of coding, I enjoy hiking in the Pacific Northwest, playing guitar, and experimenting with new cooking recipes.",
-    education: "I hold a Bachelor's degree in Computer Science from the University of Washington, where I graduated with honors. I've also completed specialized certifications in AWS Solutions Architecture and MongoDB Development.",
-    workExperience: "I've worked with startups and established companies alike, helping build scalable applications that serve thousands of users. My experience ranges from e-commerce platforms to data visualization tools and real-time communication systems."
+    personal: "I hail from Gomoa Dahom in the Central Region of Ghana. When I'm not coding, I enjoy immersing myself in movies and exploring new technologies.",
+    education: "I studied Elective Science at Saint Brother Andre Senior High School and went on to earn a Bachelor's degree in Education (Mathematics and ICT for JHS) from KNUST.",
+    workExperience: "I served as an IT Coordinator at Goshen Tasty Bread for two years, followed by a year at AT as an analyst and project manager, where I led data-driven initiatives and managed software projects from concept to deployment."
   },
-  family: "I live with my partner Jamie and our two cats, Pixel and Vector. We enjoy weekend road trips and game nights with friends.",
-  social: "I'm an active member of local tech meetups and regularly contribute to open-source projects. I also mentor junior developers through an online program.",
-  location: "Seattle, WA",
-  email: "alex@example.com",
-  phone: "+1 (555) 123-4567",
+  family: "I'm part of a big family with 6 siblings — 3 girls and 3 boys. Currently single, but taken.",
+  social: "Though I keep a low profile, I enjoy staying connected with the tech world and continue to grow through online communities and coding platforms.",
+  location: "Accra, Ghana",
+  email: "isaacessoun109@gmail.com",
+  phone: ["0243185973", "0504403914", "0264963137"],
   socialLinks: {
-    github: "https://github.com/alexjohnson",
-    linkedin: "https://linkedin.com/in/alexjohnson",
-    twitter: "https://twitter.com/alexjohnson",
+    github: "https://github.com/isaac-dev", // dummy
+    linkedin: "https://www.linkedin.com/in/isaac-essoun", // dummy
+    twitter: "https://twitter.com/isaac_codes", // dummy
   },
   skills: [
-    { name: "JavaScript", level: 95 },
-    { name: "React", level: 90 },
-    { name: "Node.js", level: 85 },
-    { name: "MongoDB", level: 80 },
-    { name: "TypeScript", level: 75 },
-    { name: "Express", level: 85 },
-    { name: "HTML/CSS", level: 90 },
-    { name: "GraphQL", level: 70 },
-    { name: "AWS", level: 65 },
-    { name: "Docker", level: 60 },
+    { name: "JavaScript", level: 60 },
+    { name: "React", level: 65 },
+    { name: "Node.js", level: 60 },
+    { name: "MongoDB", level: 60 },
+    { name: "TypeScript", level: 30 },
+    { name: "Express", level: 25 },
+    { name: "HTML/CSS", level: 75 },
+    { name: "Python", level: 60 },
+    { name: "SQL", level: 50 },
+    { name: "Git", level: 70 },
   ],
 };

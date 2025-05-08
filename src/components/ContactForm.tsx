@@ -64,8 +64,8 @@ const ContactForm = () => {
                 </div>
                 <div>
                   <h4 className="font-medium">Email</h4>
-                  <a href="mailto:alex@example.com" className="text-foreground/80 hover:text-primary">
-                    alex@example.com
+                  <a href="mailto:isaacessoun109@gmail.com" className="text-foreground/80 hover:text-primary">
+                    isaacessoun109@gmail.com
                   </a>
                 </div>
               </div>
@@ -83,13 +83,13 @@ const ContactForm = () => {
               </div>
             </div>
             
-            <div className="mt-6 p-6 bg-muted rounded-lg border border-border">
+            {/* <div className="mt-6 p-6 bg-muted rounded-lg border border-border">
               <h4 className="font-medium mb-2">Note About This Demo</h4>
               <p className="text-foreground/80 text-sm">
                 This is a frontend demo. In a real implementation, form submissions would be processed by the Express backend with validation and stored in MongoDB.
               </p>
-            </div>
-          </div>
+            </div>*/}
+          </div> 
 
           <div className="bg-card p-6 rounded-lg shadow-sm animate-fade-in animate-delay-200">
             <form onSubmit={handleSubmit} className="space-y-4">
